@@ -13,7 +13,14 @@ class DontCrushDuckieTaskSolution(TaskSolution):
         while condition:
             obs, reward, done, info = env.step([1, 0])
             img = np.ascontiguousarray(obs)
-            mask = cv2.inRange(img, (150, 150, 0), (255, 255, 150))
-            amount = cv2.countNonZero(mask)
+
+            # Выделяем пиксели желтых и оранжевых оттенков
+            yellow_pixels = cv2.inRange(img, (150, 150, 0), (255, 255, 150))
+
+            # Считаем количество пикселей с желтыми и оранжевым оттенками
+            amount = cv2.countNonZero(yellow_pixels)
+
+            # Если на картинке больше 20000 пикселей желтого и оранжевого оттенков, то перестаем ехать
             condition = amount < 20000
+
             env.render()
