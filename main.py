@@ -15,12 +15,20 @@ class DontCrushDuckieTaskSolution(TaskSolution):
         img = cv2.cvtColor(np.ascontiguousarray(obs), cv2.COLOR_BGR2RGB)
 
         # add here some image processing
+        print(img)
 
         condition = True
         while condition:
-            obs, reward, done, info = env.step([1, 0])
-            img = cv2.cvtColor(np.ascontiguousarray(obs), cv2.COLOR_BGR2RGB)
-            # add here some image processing
             condition = True
+
+            obs, reward, done, info = env.step([1, 0])
+            print(reward)
+            img = cv2.cvtColor(np.ascontiguousarray(obs), cv2.COLOR_BGR2RGB)
+
+            if reward < 65:
+                condition = False
+                obs, reward, done, info = env.step([0, 0])
+
+            # add here some image processing
             env.render()
 
